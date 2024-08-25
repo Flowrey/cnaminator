@@ -1,0 +1,10 @@
+node_modules
+web-ext-artifacts
+*.zip
+/test-src/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/coverage/
+.vscode

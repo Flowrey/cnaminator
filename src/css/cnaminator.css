@@ -1,0 +1,19 @@
+.suite-inner .ue {
+  cursor: pointer;
+  padding: 10px 10px;
+  border-radius: 3px;
+  user-select: none;
+}
+
+.suite-inner .ue.selected {
+  background-color: #00a6fb;
+}
+
+.suite-inner .ue.validated {
+  background-color: #57cc99;
+}
+
+.cra_opener {
+  width: fit-content;
+  block-size: fit-content;
+}
