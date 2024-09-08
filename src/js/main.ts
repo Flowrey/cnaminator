@@ -1,6 +1,5 @@
-import { State, TeachingUnit } from "./teaching_unit/model";
+import { TeachingUnitRepository } from "./teaching_unit/repository";
 import { TeachingUnitView } from "./teaching_unit/view";
-import * as browser from "webextension-polyfill";
 
 function getCurriculum() {
   const curriculum = document.getElementById("parcours");
@@ -34,22 +33,12 @@ teachingUnitElements.forEach(async (el: Element) => {
 
   let teachingUnit = undefined;
   try {
-    teachingUnit = TeachingUnit.fromElement(el);
+    teachingUnit = await TeachingUnitRepository.getFromLocalStorage(el);
   } catch (error) {
     console.warn(`Failed to get teaching unit from element (${error})`);
     return;
   }
 
-  const record = await browser.storage.local.get(teachingUnit.code);
-  const state = <State>record[teachingUnit.code];
-  switch (state) {
-    case State.Selected:
-      teachingUnit.select();
-      break;
-    case State.Validated:
-      teachingUnit.validate();
-      break;
-  }
-
+  new TeachingUnitRepository(teachingUnit);
   new TeachingUnitView(el, teachingUnit);
 });

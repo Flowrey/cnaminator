@@ -1,6 +1,5 @@
 import { Observer } from "../utils";
 import { State, TeachingUnit } from "./model";
-import * as browser from "webextension-polyfill";
 
 export class TeachingUnitView implements Observer {
   private subject: TeachingUnit;
@@ -10,25 +9,11 @@ export class TeachingUnitView implements Observer {
     this.subject = s;
     this.el = el;
 
+    this.init();
     this.subject.attach(this);
     this.el.addEventListener("click", () => {
       this.subject.toggle();
-      this.saveToLocalStorage();
     });
-    this.init();
-  }
-
-  private saveToLocalStorage() {
-    const record = {};
-    record[this.subject.code] = this.subject.state;
-    browser.storage.local.set(record).then(
-      () => {
-        console.debug(`${this.subject.code} saved to local storage`);
-      },
-      (err) => {
-        console.error(`Failed to save ${this.subject.code}, ${err}`);
-      },
-    );
   }
 
   private init() {
