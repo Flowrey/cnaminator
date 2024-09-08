@@ -55,7 +55,6 @@ export class TeachingUnit extends AbstractSubject {
         this.unselect();
         break;
     }
-    this.notify();
   }
 
   public unselect() {
