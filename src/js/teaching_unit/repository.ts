@@ -1,6 +1,6 @@
 import { Observer } from "../utils";
 import { State, TeachingUnit } from "./model";
-import * as browser from "webextension-polyfill";
+import browser from "webextension-polyfill";
 
 export class TeachingUnitRepository implements Observer {
   constructor(s: TeachingUnit) {
