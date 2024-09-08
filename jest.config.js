@@ -5,4 +5,6 @@ export default {
     "^.+.tsx?$": ["ts-jest", {}],
   },
   roots: ["<rootDir>/src/", "<rootDir>/tests/"],
+  coverageReporters: ["text", "html"],
+  collectCoverageFrom: ["src/**/*.{js,ts}"]
 };
