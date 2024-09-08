@@ -1,4 +1,4 @@
-import { Observer, Subject } from "../utils";
+import { AbstractSubject } from "../utils";
 
 export enum State {
   Unselected,
@@ -6,15 +6,14 @@ export enum State {
   Validated,
 }
 
-export class TeachingUnit implements Subject {
+export class TeachingUnit extends AbstractSubject {
   public title: string;
   public code: string;
   public ects: number;
   public state: State;
 
-  private observers: Observer[] = [];
-
   constructor(title: string, code: string, ects: number, state?: State) {
+    super();
     this.title = title;
     this.code = code;
     this.ects = ects;
@@ -42,30 +41,6 @@ export class TeachingUnit implements Subject {
       code.innerHTML,
       parseInt(ects.innerHTML),
     );
-  }
-
-  public attach(observer: Observer): void {
-    const isExist = this.observers.includes(observer);
-    if (isExist) {
-      throw new Error("Observer has been attached already");
-    }
-
-    this.observers.push(observer);
-  }
-
-  public detach(observer: Observer): void {
-    const observerIndex = this.observers.indexOf(observer);
-    if (observerIndex === -1) {
-      throw new Error("Nonexistent observer");
-    }
-
-    this.observers.splice(observerIndex, 1);
-  }
-
-  public notify(): void {
-    for (const observer of this.observers) {
-      observer.update(this);
-    }
   }
 
   public toggle() {
