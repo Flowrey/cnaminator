@@ -41,7 +41,7 @@ test("get teaching unit from element with missing title", () => {
 
   expect(() => {
     TeachingUnit.fromElement(el);
-  }).toThrow("No field: title");
+  }).toThrow("missing field: title");
 });
 
 test("get teaching unit from element with missing code", () => {
@@ -61,7 +61,7 @@ test("get teaching unit from element with missing code", () => {
 
   expect(() => {
     TeachingUnit.fromElement(el);
-  }).toThrow("No field: code");
+  }).toThrow("missing field: code");
 });
 
 test("get teaching unit from element with missing credits", () => {
@@ -83,7 +83,7 @@ test("get teaching unit from element with missing credits", () => {
 
   expect(() => {
     TeachingUnit.fromElement(el);
-  }).toThrow("No field: credits");
+  }).toThrow("missing field: credits");
 });
 
 test("toggle teaching unit", () => {

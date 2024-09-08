@@ -1,5 +1,12 @@
 import { AbstractSubject } from "../utils";
 
+export class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}
+
 export enum State {
   Unselected,
   Selected,
@@ -23,17 +30,17 @@ export class TeachingUnit extends AbstractSubject {
   public static fromElement(el: Element) {
     const title = el.querySelector(".titre a");
     if (title == undefined) {
-      throw new Error("No field: title");
+      throw new ValidationError("missing field: title");
     }
 
     const code = el.querySelector(".code a");
     if (code == undefined) {
-      throw new Error("No field: code");
+      throw new ValidationError("missing field: code");
     }
 
     const ects = el.querySelector(".credits");
     if (ects == undefined) {
-      throw new Error("No field: credits");
+      throw new ValidationError("missing field: credits");
     }
 
     return new TeachingUnit(

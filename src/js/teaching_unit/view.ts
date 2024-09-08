@@ -10,6 +10,7 @@ export class TeachingUnitView implements Observer {
     this.el = el;
 
     this.init();
+    this.tryDisableEventPropagation();
     this.subject.attach(this);
     this.el.addEventListener("click", () => {
       this.subject.toggle();
@@ -24,6 +25,22 @@ export class TeachingUnitView implements Observer {
       case State.Validated:
         this.el.classList.add("validated");
         break;
+    }
+  }
+
+  private disableEventPropagation() {
+    Array.of(
+      this.el.querySelector("h5, .cra_opener"),
+      this.el.querySelector(".titre a"),
+      this.el.querySelector(".code a"),
+    ).forEach((e) => e.addEventListener("click", (e) => e.stopPropagation()));
+  }
+
+  private tryDisableEventPropagation() {
+    try {
+      this.disableEventPropagation();
+    } catch (error) {
+      console.warn(`Failed to disable event propagation (${error})`);
     }
   }
 
