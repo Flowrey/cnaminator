@@ -1,6 +1,6 @@
 import { TeachingUnitRepository } from "./teaching_unit/repository";
 import { TeachingUnitView } from "./teaching_unit/view";
-import { ValidationError } from "./teaching_unit/model";
+import { TeachingUnit, ValidationError } from "./teaching_unit/model";
 
 function getCurriculum() {
   const curriculum = document.getElementById("parcours");
@@ -18,7 +18,10 @@ const curriculum = getCurriculum();
 const teachingUnitElements = getTeachingUnitElements(curriculum);
 teachingUnitElements.forEach(async (el: Element) => {
   try {
-    const teachingUnit = await TeachingUnitRepository.getFromLocalStorage(el);
+    const teachingUnit = TeachingUnit.fromElement(el);
+    teachingUnit.state =
+      await TeachingUnitRepository.getStateFromLocalStorage(teachingUnit);
+
     new TeachingUnitRepository(teachingUnit);
     new TeachingUnitView(el, teachingUnit);
   } catch (error) {

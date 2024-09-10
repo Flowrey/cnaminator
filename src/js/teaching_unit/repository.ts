@@ -10,31 +10,26 @@ export class TeachingUnitRepository implements Observer {
   public update(subject: TeachingUnit): void {
     switch (subject.state) {
       case State.Unselected:
-        this.removeFromLocalStorage(subject);
+        TeachingUnitRepository.removeStateFromLocalStorage(subject);
         break;
       case State.Selected:
       case State.Validated:
-        this.saveToLocalStorage(subject);
+        TeachingUnitRepository.saveStateToLocalStorage(subject);
         break;
     }
   }
 
-  public static async getFromLocalStorage(el: Element) {
-    const teachingUnit = TeachingUnit.fromElement(el);
-    const record = await browser.storage.local.get(teachingUnit.code);
-    const state = <State>record[teachingUnit.code];
-    switch (state) {
-      case State.Selected:
-        teachingUnit.select();
-        break;
-      case State.Validated:
-        teachingUnit.validate();
-        break;
+  public static async getStateFromLocalStorage(subject: TeachingUnit) {
+    const record = await browser.storage.local.get(subject.code);
+    const state = <State>record[subject.code];
+    if (state) {
+      return state;
+    } else {
+      return State.Unselected;
     }
-    return teachingUnit;
   }
 
-  private removeFromLocalStorage(subject: TeachingUnit) {
+  public static removeStateFromLocalStorage(subject: TeachingUnit) {
     browser.storage.local.remove(subject.code).then(
       () => {
         console.debug(`${subject.code} removed from local storage`);
@@ -45,7 +40,7 @@ export class TeachingUnitRepository implements Observer {
     );
   }
 
-  private saveToLocalStorage(subject: TeachingUnit) {
+  public static saveStateToLocalStorage(subject: TeachingUnit) {
     const record = {};
     record[subject.code] = subject.state;
     browser.storage.local.set(record).then(

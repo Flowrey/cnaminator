@@ -10,4 +10,5 @@ export default {
   moduleNameMapper: {
     "^webextension-polyfill$": "<rootDir>/tests/__mocks__/browser.ts",
   },
+  silent: true,
 };

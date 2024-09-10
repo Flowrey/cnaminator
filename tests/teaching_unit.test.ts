@@ -1,164 +1,118 @@
 import { State, TeachingUnit } from "../src/js/teaching_unit/model";
-import { Observer } from "../src/js/utils";
+import { DummyObserver, mockCallback } from "./utils.test";
 
-test("get teaching unit from element", () => {
-  // Set up our document body
-  document.body.innerHTML =
-    '<div class="ue option clearfix">' +
-    '  <div class=" infos-ue">' +
-    '    <div class="details clearfix">' +
-    '      <div class="credits">6 ECTS<span class="dico"><span class="icon icon-help_simple"></span></span></div>' +
-    '      <h4 class="titre">' +
-    '        <a id="intitule_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">Mathematical tools for computing</a>' +
-    "      </h4>" +
-    '      <div class="code">' +
-    '        <a id="code_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">MVA003</a>' +
-    "      </div>" +
-    "    </div>" +
-    "  </div>" +
-    "</div>";
-  const el = document.getElementsByClassName("ue")[0];
-  const teachingUnit = TeachingUnit.fromElement(el);
-  expect(teachingUnit.code).toBe("MVA003");
-  expect(teachingUnit.title).toBe("Mathematical tools for computing");
-  expect(teachingUnit.ects).toBe(6);
-});
+function newHTMLTeachingUnit(title?: string, code?: string, ects?: number) {
+  let html =
+    '<div class="ue option clearfix"><div class=" infos-ue"><div class="details clearfix">';
 
-test("get teaching unit from element with missing title", () => {
-  // Set up our document body
-  document.body.innerHTML =
-    '<div class="ue option clearfix">' +
-    '  <div class=" infos-ue">' +
-    '    <div class="details clearfix">' +
-    '      <div class="credits">6 ECTS<span class="dico"><span class="icon icon-help_simple"></span></span></div>' +
-    '      <div class="code">' +
-    '        <a id="code_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">MVA003</a>' +
-    "      </div>" +
-    "    </div>" +
-    "  </div>" +
-    "</div>";
-  const el = document.getElementsByClassName("ue")[0];
-
-  expect(() => {
-    TeachingUnit.fromElement(el);
-  }).toThrow("missing field: title");
-});
-
-test("get teaching unit from element with missing code", () => {
-  // Set up our document body
-  document.body.innerHTML =
-    '<div class="ue option clearfix">' +
-    '  <div class=" infos-ue">' +
-    '    <div class="details clearfix">' +
-    '      <h4 class="titre">' +
-    '        <a id="intitule_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">Mathematical tools for computing</a>' +
-    "      </h4>" +
-    '      <div class="credits">6 ECTS<span class="dico"><span class="icon icon-help_simple"></span></span></div>' +
-    "    </div>" +
-    "  </div>" +
-    "</div>";
-  const el = document.getElementsByClassName("ue")[0];
-
-  expect(() => {
-    TeachingUnit.fromElement(el);
-  }).toThrow("missing field: code");
-});
-
-test("get teaching unit from element with missing credits", () => {
-  // Set up our document body
-  document.body.innerHTML =
-    '<div class="ue option clearfix">' +
-    '  <div class=" infos-ue">' +
-    '    <div class="details clearfix">' +
-    '      <h4 class="titre">' +
-    '        <a id="intitule_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">Mathematical tools for computing</a>' +
-    "      </h4>" +
-    '      <div class="code">' +
-    '        <a id="code_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">MVA003</a>' +
-    "      </div>" +
-    "    </div>" +
-    "  </div>" +
-    "</div>";
-  const el = document.getElementsByClassName("ue")[0];
-
-  expect(() => {
-    TeachingUnit.fromElement(el);
-  }).toThrow("missing field: credits");
-});
-
-test("toggle teaching unit", () => {
-  const teachingUnit = new TeachingUnit(
-    "Architecture des machines",
-    "NFA004",
-    4,
-  );
-
-  expect(teachingUnit.state).toBe(State.Unselected);
-  teachingUnit.toggle();
-  expect(teachingUnit.state).toBe(State.Selected);
-  teachingUnit.toggle();
-  expect(teachingUnit.state).toBe(State.Validated);
-  teachingUnit.toggle();
-  expect(teachingUnit.state).toBe(State.Unselected);
-});
-
-test("observe teaching unit", () => {
-  class DummyObserver implements Observer {
-    update(subject: TeachingUnit): void {
-      subject.state = State.Unselected;
-    }
+  if (ects != null) {
+    html += `<div class="credits">${ects} ECTS<span class="dico"><span class="icon icon-help_simple"></span></span></div>`;
+  }
+  if (title != null) {
+    html +=
+      '<h4 class="titre">' +
+      `  <a id="intitule_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">${title}</a>` +
+      "</h4>";
+  }
+  if (code != null) {
+    html +=
+      '<div class="code">' +
+      `  <a id="code_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">${code}</a>` +
+      "</div>";
   }
 
-  const obs = new DummyObserver();
-  const teachingUnit = new TeachingUnit(
-    "Architecture des machines",
-    "NFA004",
-    4,
-  );
+  html += "</div></div></div>";
 
-  teachingUnit.attach(obs);
-  expect(teachingUnit.state).toBe(State.Unselected);
-  teachingUnit.toggle();
+  return html;
+}
 
-  expect(teachingUnit.state).toBe(State.Unselected);
+describe("TeachingUnit", () => {
+  describe("given a valid html element", () => {
+    test("returns a new valid instance", () => {
+      document.body.innerHTML = newHTMLTeachingUnit(
+        "Mathematical tools for computing",
+        "MVA003",
+        6,
+      );
+      const el = document.getElementsByClassName("ue")[0];
 
-  teachingUnit.detach(obs);
-  teachingUnit.toggle();
-  expect(teachingUnit.state).toBe(State.Selected);
-});
+      const teachingUnit = TeachingUnit.fromElement(el);
 
-test("detach nonexistent observer", () => {
-  class DummyObserver implements Observer {
-    update(subject: TeachingUnit): void {
-      subject.state = State.Unselected;
-    }
-  }
-  const obs = new DummyObserver();
-  const teachingUnit = new TeachingUnit(
-    "Architecture des machines",
-    "NFA004",
-    4,
-  );
+      expect(teachingUnit.code).toBe("MVA003");
+      expect(teachingUnit.title).toBe("Mathematical tools for computing");
+      expect(teachingUnit.ects).toBe(6);
+    });
+  });
 
-  expect(() => {
-    teachingUnit.detach(obs);
-  }).toThrow("Nonexistent observer");
-});
+  describe("given an invalid html element", () => {
+    test("with missing title throws ValidationError", () => {
+      document.body.innerHTML = newHTMLTeachingUnit(null, "MVA003", 6);
 
-test("attach twice observer", () => {
-  class DummyObserver implements Observer {
-    update(subject: TeachingUnit): void {
-      subject.state = State.Unselected;
-    }
-  }
-  const obs = new DummyObserver();
-  const teachingUnit = new TeachingUnit(
-    "Architecture des machines",
-    "NFA004",
-    4,
-  );
-  teachingUnit.attach(obs);
-  expect(() => {
+      const el = document.getElementsByClassName("ue")[0];
+
+      expect(() => {
+        TeachingUnit.fromElement(el);
+      }).toThrow("missing field: title");
+    });
+
+    test("with missing code throws ValidationError", () => {
+      document.body.innerHTML = newHTMLTeachingUnit(
+        "Mathematical tools for computing",
+        null,
+        6,
+      );
+
+      const el = document.getElementsByClassName("ue")[0];
+
+      expect(() => {
+        TeachingUnit.fromElement(el);
+      }).toThrow("missing field: code");
+    });
+
+    test("with missing credits throws ValidationError", () => {
+      document.body.innerHTML = newHTMLTeachingUnit(
+        "Mathematical tools for computing",
+        "MVA003",
+        null,
+      );
+
+      const el = document.getElementsByClassName("ue")[0];
+
+      expect(() => {
+        TeachingUnit.fromElement(el);
+      }).toThrow("missing field: credits");
+    });
+  });
+
+  test.each([
+    [State.Unselected, State.Selected],
+    [State.Selected, State.Validated],
+    [State.Validated, State.Unselected],
+  ])("next state after %d to be %d", (currentState, nextState) => {
+    const teachingUnit = new TeachingUnit(
+      "Architecture des machines",
+      "NFA004",
+      4,
+      currentState,
+    );
+
+    teachingUnit.toggle();
+
+    expect(teachingUnit.state).toBe(nextState);
+  });
+
+  test("notify observer on toggle", () => {
+    const obs = new DummyObserver();
+    const teachingUnit = new TeachingUnit(
+      "Architecture des machines",
+      "NFA004",
+      4,
+    );
+
     teachingUnit.attach(obs);
-  }).toThrow("Observer has been attached already");
+    teachingUnit.toggle();
+
+    expect(mockCallback).toHaveBeenCalledTimes(1);
+    expect(mockCallback).toHaveBeenCalledWith(teachingUnit);
+  });
 });
