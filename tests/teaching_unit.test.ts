@@ -1,22 +1,26 @@
 import { State, TeachingUnit } from "../src/js/teaching_unit/model";
 import { DummyObserver, mockCallback } from "./utils.test";
 
-function newHTMLTeachingUnit(title?: string, code?: string, ects?: number) {
+export function newHTMLTeachingUnit(
+  title?: string,
+  code?: string,
+  ects?: number,
+) {
   let html =
-    '<div class="ue option clearfix"><div class=" infos-ue"><div class="details clearfix">';
+    '<div data-testid="teaching-unit" class="ue option clearfix"><div class=" infos-ue"><div class="details clearfix">';
 
   if (ects != null) {
-    html += `<div class="credits">${ects} ECTS<span class="dico"><span class="icon icon-help_simple"></span></span></div>`;
+    html += `<div data-testid="ects" class="credits">${ects} ECTS<span class="dico"><span class="icon icon-help_simple"></span></span></div>`;
   }
   if (title != null) {
     html +=
-      '<h4 class="titre">' +
-      `  <a id="intitule_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">${title}</a>` +
+      '<h4 data-testid="title" class="titre">' +
+      `  <a data-testid="title-link" id="intitule_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">${title}</a>` +
       "</h4>";
   }
   if (code != null) {
     html +=
-      '<div class="code">' +
+      '<div data-testid="code" class="code">' +
       `  <a id="code_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">${code}</a>` +
       "</div>";
   }
