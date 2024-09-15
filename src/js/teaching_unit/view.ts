@@ -2,19 +2,22 @@ import { Observer } from "../utils";
 import { State, TeachingUnit } from "./model";
 
 export class TeachingUnitView implements Observer {
-  private subject: TeachingUnit;
-  private el: Element;
+  public subject: TeachingUnit;
+  public el: HTMLElement;
 
-  constructor(el: Element, s: TeachingUnit) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private clickHandler: any;
+  private isEnable: boolean;
+
+  constructor(el: HTMLElement, s: TeachingUnit) {
     this.subject = s;
     this.el = el;
 
     this.init();
     this.tryDisableEventPropagation();
     this.subject.attach(this);
-    this.el.addEventListener("click", () => {
-      this.subject.toggle();
-    });
+    this.clickHandler = this.toggleTeachingUnit.bind(this);
+    this.enable();
   }
 
   private init() {
@@ -26,6 +29,28 @@ export class TeachingUnitView implements Observer {
         this.el.classList.add("validated");
         break;
     }
+  }
+
+  private toggleTeachingUnit() {
+    this.subject.toggle();
+  }
+
+  public disable() {
+    if (this.isEnable === false) {
+      return;
+    }
+    this.isEnable = false;
+    this.el.classList.add("disabled");
+    this.el.removeEventListener("click", this.clickHandler);
+  }
+
+  public enable() {
+    if (this.isEnable === true) {
+      return;
+    }
+    this.isEnable = true;
+    this.el.classList.remove("disabled");
+    this.el.addEventListener("click", this.clickHandler);
   }
 
   private disableEventPropagation() {

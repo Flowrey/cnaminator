@@ -5,6 +5,11 @@
   user-select: none;
 }
 
+.suite-inner .ue.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .suite-inner .ue.selected {
   background-color: #00a6fb;
 }
@@ -16,4 +21,8 @@
 .cra_opener {
   width: fit-content;
   block-size: fit-content;
+}
+
+#teaching-center-selector {
+  margin-bottom: 39px;
 }

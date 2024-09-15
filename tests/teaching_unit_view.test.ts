@@ -10,7 +10,7 @@ beforeEach(() => {
 
 test("div have class selected after a click when state is unselected", async () => {
   const user = userEvent.setup();
-  const el = document.getElementsByClassName("ue")[0];
+  const el = document.getElementsByClassName("ue")[0] as HTMLElement;
   const teachingUnit = TeachingUnit.fromElement(el);
   new TeachingUnitView(el, teachingUnit);
   expect(el).not.toHaveClass("selected");
@@ -22,7 +22,7 @@ test("div have class selected after a click when state is unselected", async () 
 
 test("div have class validated after a click when state is selected", async () => {
   const user = userEvent.setup();
-  const el = document.getElementsByClassName("ue")[0];
+  const el = document.getElementsByClassName("ue")[0] as HTMLElement;
   const teachingUnit = TeachingUnit.fromElement(el);
   teachingUnit.select();
   new TeachingUnitView(el, teachingUnit);
@@ -36,7 +36,7 @@ test("div have class validated after a click when state is selected", async () =
 
 test("div have no class after a click when state is validated", async () => {
   const user = userEvent.setup();
-  const el = document.getElementsByClassName("ue")[0];
+  const el = document.getElementsByClassName("ue")[0] as HTMLElement;
   const teachingUnit = TeachingUnit.fromElement(el);
   teachingUnit.validate();
   new TeachingUnitView(el, teachingUnit);
@@ -46,4 +46,17 @@ test("div have no class after a click when state is validated", async () => {
   expect(el).not.toHaveClass("unselected");
   expect(el).not.toHaveClass("selected");
   expect(el).not.toHaveClass("validated");
+});
+
+test("div is not clickable if disabled", async () => {
+  const user = userEvent.setup();
+  const el = document.getElementsByClassName("ue")[0] as HTMLElement;
+  const teachingUnit = TeachingUnit.fromElement(el);
+  const view = new TeachingUnitView(el, teachingUnit);
+  expect(el).not.toHaveClass("selected");
+  view.disable();
+
+  await user.click(el);
+
+  expect(el).not.toHaveClass("selected");
 });
