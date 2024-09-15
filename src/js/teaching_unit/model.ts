@@ -18,12 +18,20 @@ export class TeachingUnit extends AbstractSubject {
   public code: string;
   public ects: number;
   public state: State;
+  public teachingCenters: Array<string> | null;
 
-  constructor(title: string, code: string, ects: number, state?: State) {
+  constructor(
+    title: string,
+    code: string,
+    ects: number,
+    state?: State,
+    teachingCenters?: string[],
+  ) {
     super();
     this.title = title;
     this.code = code;
     this.ects = ects;
+    this.teachingCenters = teachingCenters;
     this.state = state || State.Unselected;
   }
 
@@ -43,10 +51,19 @@ export class TeachingUnit extends AbstractSubject {
       throw new ValidationError("missing field: credits");
     }
 
+    const cra = el.querySelector(".cra");
+    const teachingCenters = cra
+      ? Array.from(cra.children).map((center) =>
+          center.querySelector("strong").innerText.trim(),
+        )
+      : null;
+
     return new TeachingUnit(
       title.innerHTML,
       code.innerHTML,
       parseInt(ects.innerHTML),
+      State.Unselected,
+      teachingCenters,
     );
   }
 
