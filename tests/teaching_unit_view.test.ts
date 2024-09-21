@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 beforeEach(() => {
-  document.body.innerHTML = newHTMLTeachingUnit("foo", "BAR001", 6);
+  document.body.innerHTML = newHTMLTeachingUnit("foo", "BAR001", 6).outerHTML;
 });
 
 test("div have class selected after a click when state is unselected", async () => {

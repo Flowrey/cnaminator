@@ -54,7 +54,7 @@ export class TeachingUnit extends AbstractSubject {
     const cra = el.querySelector(".cra");
     const teachingCenters = cra
       ? Array.from(cra.children).map((center) =>
-          center.querySelector("strong").innerText.trim(),
+          center.querySelector("strong").innerHTML.trim(),
         )
       : null;
 

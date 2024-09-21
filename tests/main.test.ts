@@ -7,8 +7,9 @@ test("teaching units are clickable", async () => {
   browser.storage.local.get.mockImplementation(() => Promise.resolve({}));
   document.body.innerHTML =
     '<div id="parcours">' +
-    newHTMLTeachingUnit("Mathematical tools for IT", "UTC501", 3) +
-    newHTMLTeachingUnit("Fundamentals of Operating Systems", "UTC502", 3) +
+    newHTMLTeachingUnit("Mathematical tools for IT", "UTC501", 3).outerHTML +
+    newHTMLTeachingUnit("Fundamentals of Operating Systems", "UTC502", 3)
+      .outerHTML +
     "</div>";
 
   const user = userEvent.setup();
