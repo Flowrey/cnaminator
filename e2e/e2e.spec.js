@@ -1,7 +1,9 @@
 // @ts-check
 import { test, expect } from "./fixtures";
 
-test("click on teaching unit", async ({ page }) => {
+test("clicking on a teaching unit change his background color", async ({
+  page,
+}) => {
   await page.goto(
     "https://formation.cnam.fr/rechercher-par-discipline/licence-informatique-1085631.kjsp",
   );
@@ -25,7 +27,7 @@ test("click on teaching unit", async ({ page }) => {
   await expect(utc501).toHaveClass("ue option clearfix");
 });
 
-test("validated teaching unit on another degree", async ({ page }) => {
+test("validated teaching units remains on another degree", async ({ page }) => {
   await page.goto(
     "https://formation.cnam.fr/rechercher-par-discipline/licence-informatique-1085631.kjsp",
   );
@@ -47,4 +49,24 @@ test("validated teaching unit on another degree", async ({ page }) => {
     .nth(2);
 
   await expect(utc501).toHaveClass("ue option clearfix validated");
+});
+
+test("filtered teaching units are not clickable", async ({ page }) => {
+  await page.goto(
+    "https://formation.cnam.fr/rechercher-par-discipline/licence-informatique-1085631.kjsp",
+  );
+  await page.getByRole("link", { name: "Programme" }).click();
+
+  const utc501 = page
+    .locator("#branche_43 div")
+    .filter({ hasText: "3 ECTSOutils mathématiques" })
+    .nth(2);
+
+  await page.locator("#teaching-center-selector").selectOption("Normandie");
+  await utc501.click();
+  await expect(utc501).not.toHaveClass("ue option clearfix selected");
+
+  await page.locator("#teaching-center-selector").selectOption("Lieu(x)");
+  await utc501.click();
+  await expect(utc501).toHaveClass("ue option clearfix selected");
 });

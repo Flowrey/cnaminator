@@ -5,29 +5,78 @@ export function newHTMLTeachingUnit(
   title?: string,
   code?: string,
   ects?: number,
+  teachingCenters: string[] = ["Paris"],
 ) {
-  let html =
-    '<div data-testid="teaching-unit" class="ue option clearfix"><div class=" infos-ue"><div class="details clearfix">';
+  const teachingUnitDiv = document.createElement("div");
+  teachingUnitDiv.setAttribute("class", "ue option clearfix");
+
+  const teachingUnitInfoDiv = document.createElement("div");
+  teachingUnitInfoDiv.setAttribute("class", "infos-ue");
+
+  const detailsDiv = document.createElement("div");
+  detailsDiv.setAttribute("class", "details clearfix");
+
+  const detailsCraDiv = document.createElement("div");
+  detailsCraDiv.setAttribute("class", "details-cra clearfix");
 
   if (ects != null) {
-    html += `<div data-testid="ects" class="credits">${ects} ECTS<span class="dico"><span class="icon icon-help_simple"></span></span></div>`;
+    const ectsDiv = document.createElement("div");
+    ectsDiv.setAttribute("class", "credits");
+    ectsDiv.innerHTML = `${ects} ECTS`;
+
+    detailsDiv.appendChild(ectsDiv);
   }
+
   if (title != null) {
-    html +=
-      '<h4 data-testid="title" class="titre">' +
-      `  <a data-testid="title-link" id="intitule_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">${title}</a>` +
-      "</h4>";
+    const titleHeader = document.createElement("h4");
+    titleHeader.setAttribute("class", "titre");
+    const titleAnchor = document.createElement("a");
+    titleAnchor.setAttribute("target", "ue");
+    titleAnchor.innerHTML = `${title}`;
+
+    titleHeader.appendChild(titleAnchor);
+    detailsDiv.appendChild(titleHeader);
   }
+
   if (code != null) {
-    html +=
-      '<div data-testid="code" class="code">' +
-      `  <a id="code_5df3b7279a53cb218ffb5684789f8939" href="/servlet/uFF?OBJET=ue&amp;CODE=MVA003&amp;LANGUE=0&amp;RF=" target="ue">${code}</a>` +
-      "</div>";
+    const codeDiv = document.createElement("div");
+    codeDiv.setAttribute("class", "code");
+    const codeAnchor = document.createElement("a");
+    codeAnchor.setAttribute("target", "ue");
+    codeAnchor.innerHTML = `${code}`;
+
+    codeDiv.appendChild(codeAnchor);
+    detailsDiv.appendChild(codeDiv);
   }
 
-  html += "</div></div></div>";
+  const craHeader = document.createElement("h5");
+  craHeader.setAttribute(
+    "class",
+    "cra_opener cra_opener_closed cra_opener_opened",
+  );
+  craHeader.innerHTML = "Centre(s) d'enseignement";
 
-  return html;
+  const divList = document.createElement("div");
+  divList.setAttribute("class", "liste closed");
+
+  const craList = document.createElement("ul");
+  craList.setAttribute("class", "cra");
+
+  for (const center of teachingCenters) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = `<strong>${center}</strong>`;
+    craList.appendChild(listItem);
+  }
+
+  craHeader.appendChild(divList);
+  divList.appendChild(craList);
+
+  detailsCraDiv.appendChild(craHeader);
+
+  teachingUnitDiv.appendChild(teachingUnitInfoDiv);
+  teachingUnitInfoDiv.appendChild(detailsDiv);
+  teachingUnitInfoDiv.appendChild(detailsCraDiv);
+  return teachingUnitDiv;
 }
 
 describe("TeachingUnit", () => {
@@ -37,9 +86,8 @@ describe("TeachingUnit", () => {
         "Mathematical tools for computing",
         "MVA003",
         6,
-      );
+      ).outerHTML;
       const el = document.getElementsByClassName("ue")[0];
-
       const teachingUnit = TeachingUnit.fromElement(el);
 
       expect(teachingUnit.code).toBe("MVA003");
@@ -50,8 +98,11 @@ describe("TeachingUnit", () => {
 
   describe("given an invalid html element", () => {
     test("with missing title throws ValidationError", () => {
-      document.body.innerHTML = newHTMLTeachingUnit(null, "MVA003", 6);
-
+      document.body.innerHTML = newHTMLTeachingUnit(
+        null,
+        "MVA003",
+        6,
+      ).outerHTML;
       const el = document.getElementsByClassName("ue")[0];
 
       expect(() => {
@@ -64,8 +115,7 @@ describe("TeachingUnit", () => {
         "Mathematical tools for computing",
         null,
         6,
-      );
-
+      ).outerHTML;
       const el = document.getElementsByClassName("ue")[0];
 
       expect(() => {
@@ -78,7 +128,7 @@ describe("TeachingUnit", () => {
         "Mathematical tools for computing",
         "MVA003",
         null,
-      );
+      ).outerHTML;
 
       const el = document.getElementsByClassName("ue")[0];
 
