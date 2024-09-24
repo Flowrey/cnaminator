@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2024-09-24
+
+### Added
+
+- Add a way to filter teaching units by teaching center.
+
 ## [0.1.1] - 2024-09-14
 
 ### Fixed
@@ -21,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Click on teaching unit's title or code no longer select the teaching unit.
 - Restore the academic center drop-down on teaching units.
 
-[unreleased]: https://github.com/flowrey/cnaminator/compare/v0.1.1...HEAD
+[unreleased]: https://github.com/flowrey/cnaminator/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/flowrey/cnaminator/releases/tag/v0.2.0
 [0.1.1]: https://github.com/flowrey/cnaminator/releases/tag/v0.1.1
 [0.1.0]: https://github.com/flowrey/cnaminator/releases/tag/v0.1.0
