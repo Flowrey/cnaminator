@@ -3,7 +3,7 @@
 </p>
 <h2 align="center">CNAMinator</h2>
 
-**CNAMinator** make teaching units from the [formation.cnam.fr](https://formation.cnam.fr) selectable so you can plan and visualize you're progression on a degree.
+**CNAMinator** make teaching units from the [formation.cnam.fr](https://formation.cnam.fr) selectable so you can plan and visualize your progress on a degree.
 
 ## Building
 
