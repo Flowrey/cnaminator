@@ -1,6 +1,7 @@
 import { TeachingUnitRepository } from "./teaching_unit/repository";
 import { TeachingUnitView } from "./teaching_unit/view";
-import { TeachingUnit, ValidationError } from "./teaching_unit/model";
+import { State, TeachingUnit, ValidationError } from "./teaching_unit/model";
+import { Observer } from "./utils";
 
 export function getCurriculum(doc: Document) {
   const curriculum = doc.getElementById("parcours");
@@ -24,6 +25,42 @@ export function newTeachingCenterSelector(doc: Document) {
   teachingCenterSelect.add(opt);
 
   return teachingCenterSelect;
+}
+
+export class ECTSCounter implements Observer {
+  ref: HTMLParagraphElement;
+  value: number;
+
+  constructor(doc: Document) {
+    const ectsCount = doc.createElement("p");
+    ectsCount.textContent = `ECTS: 0`;
+
+    this.ref = ectsCount;
+    this.value = 0;
+  }
+
+  decr(v: number) {
+    this.value -= v;
+    this.ref.textContent = `ECTS: ${this.value}`;
+  }
+
+  incr(v: number) {
+    this.value += v;
+    this.ref.textContent = `ECTS: ${this.value}`;
+  }
+
+  update(subject: TeachingUnit): void {
+    switch (subject.state) {
+      case State.Unselected:
+        this.decr(subject.ects);
+        break;
+      case State.Selected:
+        break;
+      case State.Validated:
+        this.incr(subject.ects);
+        break;
+    }
+  }
 }
 
 export function addTeachingCentersToSelect(
@@ -65,7 +102,9 @@ export function filterTeachingUnit(
 export function main(doc: Document) {
   const curriculum = getCurriculum(doc);
   const teachingCenterSelect = newTeachingCenterSelector(doc);
+  const ectsCounter = new ECTSCounter(doc);
   curriculum.insertBefore(teachingCenterSelect, curriculum.firstChild);
+  curriculum.insertBefore(ectsCounter.ref, teachingCenterSelect.nextSibling);
 
   const teachingUnitElements = getTeachingUnitElements(curriculum);
   const teachingUnitViews = teachingUnitElements.map(
@@ -77,6 +116,10 @@ export function main(doc: Document) {
         teachingUnit.state = state;
         new TeachingUnitRepository(teachingUnit);
         const view = new TeachingUnitView(el, teachingUnit);
+        teachingUnit.attach(ectsCounter);
+        if (teachingUnit.state == State.Validated) {
+          ectsCounter.incr(teachingUnit.ects);
+        }
         addTeachingCentersToSelect(
           teachingCenterSelect,
           teachingUnit.teachingCenters,

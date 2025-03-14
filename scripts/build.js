@@ -7,7 +7,7 @@ const manifest = {
   manifest_version: 3,
   name: "CNAMinator",
   description: "A web extension to help selecting teaching unit for the CNAM.",
-  version: "0.2.0",
+  version: "0.3.0",
   icons: {
     16: "icons/icon16.png",
     32: "icons/icon32.png",
