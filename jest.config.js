@@ -7,6 +7,7 @@ export default {
   roots: ["<rootDir>/src/", "<rootDir>/tests/"],
   coverageReporters: ["text", "html"],
   collectCoverageFrom: ["src/**/*.{js,ts}"],
+  moduleDirectories: ["node_modules", "src/js"],
   moduleNameMapper: {
     "^webextension-polyfill$": "<rootDir>/tests/__mocks__/browser.ts",
   },

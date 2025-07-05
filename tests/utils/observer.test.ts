@@ -1,16 +1,16 @@
-import { AbstractSubject, Observer, Subject } from "../src/js/utils";
+import { AbstractSubject, Observer } from "utils/observer";
 
 export const mockCallback = jest.fn();
 
 export class DummyObserver implements Observer {
-  update(subject: Subject): void {
-    mockCallback(subject);
+  update(): void {
+    mockCallback();
   }
 }
 
 export class DummySubject extends AbstractSubject {
   toggle() {
-    this.notify();
+    this.notifyListeners();
   }
 }
 
@@ -18,11 +18,11 @@ test("detaching nonexistent observer throws Error", () => {
   const obs = new DummyObserver();
   const subject = new DummySubject();
 
-  subject.attach(obs);
-  subject.detach(obs);
+  subject.addListener(obs);
+  subject.removeListener(obs);
 
   expect(() => {
-    subject.detach(obs);
+    subject.removeListener(obs);
   }).toThrow("Nonexistent observer");
 });
 
@@ -30,9 +30,9 @@ test("attaching twice the same observer throws Error", () => {
   const obs = new DummyObserver();
   const subject = new DummySubject();
 
-  subject.attach(obs);
+  subject.addListener(obs);
 
   expect(() => {
-    subject.attach(obs);
+    subject.addListener(obs);
   }).toThrow("Observer has been attached already");
 });

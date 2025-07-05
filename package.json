@@ -27,7 +27,9 @@
   },
   "scripts": {
     "build": "node scripts/cli.js",
-    "test": "npx jest",
-    "e2e": "npx playwright test"
+    "fmt": "prettier --write .",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "e2e": "playwright test"
   }
 }

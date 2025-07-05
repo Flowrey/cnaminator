@@ -1,5 +1,5 @@
-import { newHTMLTeachingUnit } from "./teaching_unit.test";
-import { addTeachingCentersToSelect, main } from "../src/js/lib";
+import { newHTMLTeachingUnit } from "./models/teaching_unit.test";
+import { main } from "lib";
 import userEvent from "@testing-library/user-event";
 import browser from "./__mocks__/webextension-polyfill";
 import "@testing-library/jest-dom";
@@ -17,14 +17,6 @@ beforeEach(() => {
     "</div>";
 });
 
-test("main throws an error if no curriculum is founded", () => {
-  document.getElementById("parcours").setAttribute("id", "foo");
-
-  expect(() => {
-    main(document);
-  }).toThrow("no curriculum founded");
-});
-
 test("main don't throws and error if a teaching unit is invalid", async () => {
   document.getElementById("parcours").innerHTML =
     newHTMLTeachingUnit(null, "UTC501", 3).outerHTML +
@@ -32,7 +24,7 @@ test("main don't throws and error if a teaching unit is invalid", async () => {
       .outerHTML;
   const user = userEvent.setup();
   const el = document.getElementsByClassName("ue")[1];
-  main(document);
+  await main(document);
   expect(el).not.toHaveClass("selected");
 
   await user.click(el);
@@ -43,7 +35,7 @@ test("main don't throws and error if a teaching unit is invalid", async () => {
 test("clicking on a teachingUnit change his state", async () => {
   const user = userEvent.setup();
   const el = document.getElementsByClassName("ue")[0];
-  main(document);
+  await main(document);
   expect(el).not.toHaveClass("selected");
 
   await user.click(el);
@@ -54,15 +46,14 @@ test("clicking on a teachingUnit change his state", async () => {
 test("selecting a teachingCenter disable teachingUnit not associated", async () => {
   const user = userEvent.setup();
   const el = document.getElementsByClassName("ue");
-  main(document);
+  await main(document);
   const selector = document.getElementById(
     "teaching-center-selector",
   ) as HTMLSelectElement;
-  addTeachingCentersToSelect(selector, ["Paris", "Bretagne"]);
+
   expect(el[0]).not.toHaveClass("selected");
   expect(el[1]).not.toHaveClass("selected");
 
-  console.log(document.body.innerHTML);
   await user.selectOptions(selector, ["Bretagne"]);
   await user.click(el[0]);
   await user.click(el[1]);

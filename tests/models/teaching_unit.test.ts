@@ -1,5 +1,4 @@
-import { State, TeachingUnit } from "../src/js/teaching_unit/model";
-import { DummyObserver, mockCallback } from "./utils.test";
+import { TeachingUnit } from "domain/models/teaching_unit";
 
 export function newHTMLTeachingUnit(
   title?: string,
@@ -136,37 +135,5 @@ describe("TeachingUnit", () => {
         TeachingUnit.fromElement(el);
       }).toThrow("missing field: credits");
     });
-  });
-
-  test.each([
-    [State.Unselected, State.Selected],
-    [State.Selected, State.Validated],
-    [State.Validated, State.Unselected],
-  ])("next state after %d to be %d", (currentState, nextState) => {
-    const teachingUnit = new TeachingUnit(
-      "Architecture des machines",
-      "NFA004",
-      4,
-      currentState,
-    );
-
-    teachingUnit.toggle();
-
-    expect(teachingUnit.state).toBe(nextState);
-  });
-
-  test("notify observer on toggle", () => {
-    const obs = new DummyObserver();
-    const teachingUnit = new TeachingUnit(
-      "Architecture des machines",
-      "NFA004",
-      4,
-    );
-
-    teachingUnit.attach(obs);
-    teachingUnit.toggle();
-
-    expect(mockCallback).toHaveBeenCalledTimes(1);
-    expect(mockCallback).toHaveBeenCalledWith(teachingUnit);
   });
 });

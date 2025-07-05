@@ -21,7 +21,7 @@ export const test = base.extend({
       headless: false,
       args: [
         // headless=new mode is not officially supported and might result in unexpected behavior.
-        // `--headless=new`,
+        `--headless=new`,
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
       ],

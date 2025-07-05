@@ -1,6 +1,6 @@
 import userEvent from "@testing-library/user-event";
 import browser from "./__mocks__/webextension-polyfill";
-import { newHTMLTeachingUnit } from "./teaching_unit.test";
+import { newHTMLTeachingUnit } from "./models/teaching_unit.test";
 import "@testing-library/jest-dom";
 
 test("teaching units are clickable", async () => {
