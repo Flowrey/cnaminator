@@ -7,7 +7,7 @@ const manifest = {
   manifest_version: 3,
   name: "CNAMinator",
   description: "A web extension to help selecting teaching unit for the CNAM.",
-  version: "0.3.1",
+  version: "0.4.0",
   icons: {
     16: "icons/icon16.png",
     32: "icons/icon32.png",
@@ -18,7 +18,7 @@ const manifest = {
   permissions: ["storage"],
   content_scripts: [
     {
-      matches: ["*://formation.cnam.fr/*"],
+      matches: ["*://www.cnam-paris.fr/*"],
       js: ["content_script.js"],
       css: ["cnaminator.css"],
     },

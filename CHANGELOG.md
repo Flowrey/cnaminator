@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-02-13
+
+### Changed
+
+- Enabled this extension for the domain <www.cnam-paris.fr> instead of <formation.cnam.fr>.
+
 ## [0.3.1] - 2025-07-09
 
 ### Fixed
@@ -39,7 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Click on teaching unit's title or code no longer select the teaching unit.
 - Restore the academic center drop-down on teaching units.
 
-[Unreleased]: https://github.com/flowrey/cnaminator/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/flowrey/cnaminator/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/flowrey/cnaminator/releases/tag/v0.4.0
 [0.3.1]: https://github.com/flowrey/cnaminator/releases/tag/v0.3.1
 [0.3.0]: https://github.com/flowrey/cnaminator/releases/tag/v0.3.0
 [0.2.0]: https://github.com/flowrey/cnaminator/releases/tag/v0.2.0
