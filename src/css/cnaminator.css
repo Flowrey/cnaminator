@@ -18,9 +18,17 @@
   background-color: #57cc99;
 }
 
+.suite-inner .details-cra .liste {
+  background-color: #ffffff;
+}
+
 .cra_opener {
   width: fit-content;
   block-size: fit-content;
+}
+
+.cra {
+  color: black;
 }
 
 #teaching-center-selector {

@@ -5,14 +5,10 @@ test("clicking on a teaching unit change his background color", async ({
   page,
 }) => {
   await page.goto(
-    "https://formation.cnam.fr/rechercher-par-discipline/licence-informatique-1085631.kjsp",
+    "https://www.cnam.fr/formation/electronique-informatique-telecommunication/informatique-systemes-dinformation-et-numerique/ingenieur-en-informatique-architecture-et-integration-des-systemes-et-des-logiciels-9",
   );
-  await page.getByRole("link", { name: "Programme" }).click();
 
-  const utc501 = page
-    .locator("#branche_43 div")
-    .filter({ hasText: "3 ECTSOutils mathématiques" })
-    .nth(2);
+  const utc501 = page.locator(".ue").first();
 
   // First click
   await utc501.click();
@@ -29,44 +25,34 @@ test("clicking on a teaching unit change his background color", async ({
 
 test("validated teaching units remains on another degree", async ({ page }) => {
   await page.goto(
-    "https://formation.cnam.fr/rechercher-par-discipline/licence-informatique-1085631.kjsp",
+    "https://www.cnam.fr/formation/electronique-informatique-telecommunication/informatique-systemes-dinformation-et-numerique/ingenieur-en-informatique-architecture-et-integration-des-systemes-et-des-logiciels-9",
   );
-  await page.getByRole("link", { name: "Programme" }).click();
 
-  var utc501 = page
-    .locator("#branche_43 div")
-    .filter({ hasText: "3 ECTSOutils mathématiques" })
-    .nth(2);
+  var utc501 = page.locator(".ue").first();
   await utc501.click({ clickCount: 2, delay: 100 });
 
   await page.goto(
-    "https://formation.cnam.fr/rechercher-par-discipline/ingenieur-en-informatique-architecture-et-integration-des-systemes-et-des-logiciels-1003893.kjsp",
+    "https://www.cnam.fr/formation/electronique-informatique-telecommunication/informatique-systemes-dinformation-et-numerique/licence-informatique-16",
   );
-  await page.getByRole("link", { name: "Programme" }).click();
   utc501 = page
-    .locator("#branche_1 div")
-    .filter({ hasText: "3 ECTSOutils mathématiques" })
-    .nth(2);
+    .locator(
+      ".suite.suite-sequence.first-suite.suite-0.section-2 > .suite-inner > div",
+    )
+    .first();
 
   await expect(utc501).toHaveClass("ue option clearfix validated");
 });
 
 test("filtered teaching units are not clickable", async ({ page }) => {
   await page.goto(
-    "https://formation.cnam.fr/rechercher-par-discipline/licence-informatique-1085631.kjsp",
+    "https://www.cnam.fr/formation/electronique-informatique-telecommunication/informatique-systemes-dinformation-et-numerique/ingenieur-en-informatique-architecture-et-integration-des-systemes-et-des-logiciels-9",
   );
-  await page.getByRole("link", { name: "Programme" }).click();
 
-  const utc501 = page
-    .locator("#branche_43 div")
-    .filter({ hasText: "3 ECTSOutils mathématiques" })
-    .nth(2);
+  const utc501 = page.locator(".ue").first();
 
-  await page.locator("#teaching-center-selector").selectOption("Normandie");
-  await utc501.click();
-  await expect(utc501).not.toHaveClass("ue option clearfix selected");
+  await page.locator("#teaching-center-selector").selectOption("Guadeloupe");
+  await expect(utc501).toContainClass("disabled");
 
   await page.locator("#teaching-center-selector").selectOption("Lieu(x)");
-  await utc501.click();
-  await expect(utc501).toHaveClass("ue option clearfix selected");
+  await expect(utc501).not.toContainClass("disabled");
 });

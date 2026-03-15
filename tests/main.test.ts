@@ -6,7 +6,7 @@ import "@testing-library/jest-dom";
 test("teaching units are clickable", async () => {
   browser.storage.local.get.mockImplementation(() => Promise.resolve({}));
   document.body.innerHTML =
-    '<div id="parcours">' +
+    '<div class="schema">' +
     newHTMLTeachingUnit("Mathematical tools for IT", "UTC501", 3).outerHTML +
     newHTMLTeachingUnit("Fundamentals of Operating Systems", "UTC502", 3)
       .outerHTML +

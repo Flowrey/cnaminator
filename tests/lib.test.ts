@@ -7,7 +7,7 @@ import "@testing-library/jest-dom";
 beforeEach(() => {
   browser.storage.local.get.mockImplementation(() => Promise.resolve({}));
   document.body.innerHTML =
-    '<div id="parcours">' +
+    '<div class="schema" id="parcours">' +
     newHTMLTeachingUnit("Mathematical tools for IT", "UTC501", 3, ["Paris"])
       .outerHTML +
     newHTMLTeachingUnit("Fundamentals of Operating Systems", "UTC502", 3, [
