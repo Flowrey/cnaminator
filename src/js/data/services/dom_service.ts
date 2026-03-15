@@ -10,11 +10,11 @@ export class DOMService {
   }
 
   public getCurriculumElement(): Element {
-    const curriculum = this.document.getElementById("parcours");
-    if (!curriculum) {
+    const curriculum = this.document.getElementsByClassName("schema");
+    if (!curriculum || curriculum.length < 1) {
       throw new Error("no curriculum founded");
     }
-    return curriculum;
+    return curriculum[0];
   }
 
   public getTeachingUnitElements(): Array<Element> {

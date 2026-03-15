@@ -3,13 +3,7 @@
 
 <h2 align="center">CNAMinator</h2>
 
-**CNAMinator** makes teaching units from [cnam-paris.fr](https://www.cnam-paris.fr) selectable so you can plan and visualize your progress toward a degree.
-
-## Notes
-
-The domain previously used (formation.cnam.fr) no longer exists and now redirects to <https://www.cnam.fr/formation>.
-
-As a temporary workaround, this extension is enabled for the similar site <https://www.cnam-paris.fr>. I plan to update CNAMinator to support the new <https://www.cnam.fr/formation> pages, but that requires adapting to the site's updated HTML/CSS and will take additional work.
+**CNAMinator** makes teaching units from [www.cnam.fr](https://www.cnam.fr) selectable so you can plan and visualize your progress toward a degree.
 
 ## Building
 

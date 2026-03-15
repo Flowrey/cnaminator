@@ -18,7 +18,7 @@ const manifest = {
   permissions: ["storage"],
   content_scripts: [
     {
-      matches: ["*://www.cnam-paris.fr/*"],
+      matches: ["*://www.cnam.fr/formation/*"],
       js: ["content_script.js"],
       css: ["cnaminator.css"],
     },

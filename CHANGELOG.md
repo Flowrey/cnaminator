@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated teaching unit parser to handle new HTML/CSS structure.
+
 ## [0.4.0] - 2026-02-13
 
 ### Changed

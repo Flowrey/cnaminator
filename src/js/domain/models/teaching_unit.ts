@@ -28,22 +28,22 @@ export class TeachingUnit extends AbstractSubject {
   }
 
   public static fromElement(el: Element) {
-    const title = el.querySelector(".titre a");
+    const title = el.querySelector("div.details .titre a");
     if (title == undefined) {
       throw new ValidationError("missing field: title");
     }
 
-    const code = el.querySelector(".code a");
+    const code = el.querySelector("div.details .code a");
     if (code == undefined) {
       throw new ValidationError("missing field: code");
     }
 
-    const ects = el.querySelector(".credits");
+    const ects = el.querySelector("div.details .credits");
     if (ects == undefined) {
       throw new ValidationError("missing field: credits");
     }
 
-    const cra = el.querySelector(".cra");
+    const cra = el.querySelector("div.details-cra div.liste .cra");
     const teachingCenters = cra
       ? Array.from(cra.children).map((center) =>
           center.querySelector("strong").innerHTML.trim(),
