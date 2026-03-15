@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
+### [0.5.0] - 2026-03-15
 
 - Updated teaching unit parser to handle new HTML/CSS structure.
 
@@ -49,7 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Click on teaching unit's title or code no longer select the teaching unit.
 - Restore the academic center drop-down on teaching units.
 
-[Unreleased]: https://github.com/flowrey/cnaminator/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/flowrey/cnaminator/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/flowrey/cnaminator/releases/tag/v0.5.0
 [0.4.0]: https://github.com/flowrey/cnaminator/releases/tag/v0.4.0
 [0.3.1]: https://github.com/flowrey/cnaminator/releases/tag/v0.3.1
 [0.3.0]: https://github.com/flowrey/cnaminator/releases/tag/v0.3.0
